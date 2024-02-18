@@ -1,10 +1,14 @@
-import express, { Express, Request, Response, Application } from "express";
+import express, { Request, Response, Application } from "express";
 import dotenv from "dotenv";
 import * as bodyParser from "body-parser";
 import cors from "cors";
 import { appDataSource } from "./config/Database";
-import PostRouter from "./routes/PostRouter";
+import AdminRouter from "./routes/AdminRouter";
 import authRouter from "./routes/AuthRouter";
+import UserRouter from "./routes/UserRouter";
+import TeacherRouter from "./routes/TeacherRouter";
+import fs from "fs";
+const swaggerUi = require("swagger-ui-express");
 
 // establish database connection
 appDataSource
@@ -26,12 +30,40 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+// Define API routes
 app.use("/api/v1/auth", authRouter);
-app.use("/post", PostRouter);
+app.use("/api/v1/admin", AdminRouter);
+app.use("/api/v1/user", UserRouter);
+app.use("/api/v1/teacher", TeacherRouter);
+
+// Default route
 app.get("/", (req: Request, res: Response) => {
     res.send("Welcome to Express & TypeScript Server");
 });
-// app.use("/api/v1/auth", authRouter)
+
+// Dynamically generate and write Swagger JSON file
+const swaggerDocument = {
+    openapi: "3.0.0",
+    info: {
+        version: "1.0.0",
+        title: "Your API Documentation",
+        description: "API Documentation for your Express server",
+    },
+    paths: {
+        "/api/v1/admin": {
+            get: {
+                summary: "get admin",
+                description: "Create an admin",
+            },
+        },
+    },
+};
+fs.writeFileSync("./swagger.json", JSON.stringify(swaggerDocument, null, 2));
+
+// Serve Swagger UI with the dynamically generated Swagger JSON
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
+
+// Start the server
 app.listen(port, () => {
-    console.log(`Server is Fire at http://localhost:${port}`);
+    console.log(`Server is live at http://localhost:${port}`);
 });

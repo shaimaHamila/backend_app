@@ -11,6 +11,7 @@ export const appDataSource = new DataSource({
     database: DB_NAME || "AssociationCoranique",
     entities: ["src/entities/*.ts"],
     synchronize: NODE_ENV === "dev" ? false : false,
+    // synchronize: true,
     //logging logs sql command on the treminal
     logging: NODE_ENV === "dev" ? false : false,
     subscribers: [],

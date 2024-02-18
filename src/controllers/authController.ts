@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { appDataSource } from "../config/Database";
-import { User } from "../entities/User";
+import { Admin } from "../entities/Admin";
 import { encrypt } from "../helpers/helpers";
 
-const userRepository = appDataSource.getRepository(User);
+const userRepository = appDataSource.getRepository(Admin);
 
 const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
@@ -29,13 +29,13 @@ const login = async (req: Request, res: Response) => {
 
 const signup = async (req: Request, res: Response) => {
     try {
-        const { firstName, email, password, roles } = req.body;
+        const { firstName, email, password, role } = req.body;
         const encryptedPassword = await encrypt.encryptpass(password);
-        const user = new User();
+        const user = new Admin();
         user.firstName = firstName;
         user.email = email;
         user.password = encryptedPassword;
-        user.roles = roles;
+        user.role = role;
 
         await userRepository.save(user);
 
