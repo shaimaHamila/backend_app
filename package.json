@@ -9,7 +9,7 @@
         "dev": "nodemon ./src/index.ts"
     },
     "lint-staged": {
-        "*.**": "prettier --write --ignore-unknown"
+        "*.**": "prettier . --write --ignore-unknown"
     },
     "author": "",
     "license": "ISC",

@@ -20,6 +20,9 @@ export const getPost = async (req: Request, res: Response) => {
         const posts = await appDataSource.getRepository(Post).find();
 
 
+
+
+
         res.status(200).json({ succss: true, message: "get post successfully", data: posts });
     } catch (error) {
 
