@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { appDataSource } from "../config/Database";
-import { Post } from "../entities/Post";
+import { Post } from '../entities/Post';
 export const getPost = async (req: Request, res: Response) => {
     try {
         const posts = await appDataSource.getRepository(Post).find();
