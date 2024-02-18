@@ -1,10 +1,9 @@
 import { DataSource } from "typeorm";
 import "reflect-metadata";
 
-const { DB_HOST, DB_NAME, DB_USER, DB_PASSWORD, DB_PORT, NODE_ENV } =
-    process.env;
+const { DB_HOST, DB_NAME, DB_USER, DB_PASSWORD, DB_PORT, NODE_ENV } = process.env;
 export const appDataSource = new DataSource({
-    type: 'mysql',
+    type: "mysql",
     host: DB_HOST || "localhost",
     port: parseInt(DB_PORT || "3306"),
     username: DB_USER || "root",

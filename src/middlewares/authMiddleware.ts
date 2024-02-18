@@ -19,8 +19,7 @@ const authentification = async (req: Request, res: Response, next: NextFunction)
     }
     (req as any).currentUser = decode;
     next();
-}
-
+};
 
 export const authorization = (roles: string[]) => {
     return async (req: Request, res: Response, next: NextFunction) => {

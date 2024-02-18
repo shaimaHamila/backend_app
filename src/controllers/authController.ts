@@ -10,9 +10,7 @@ const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     try {
         if (!email || !password) {
-            return res
-                .status(500)
-                .json({ message: " email and password required" });
+            return res.status(500).json({ message: " email and password required" });
         }
         const user = await userRepository.findOne({ where: { email } });
 
@@ -23,12 +21,11 @@ const login = async (req: Request, res: Response) => {
         const token = encrypt.generateToken({ id: user.id });
 
         return res.status(200).json({ success: true, message: "Login successful", user, token });
-
     } catch (errors) {
         console.error(errors);
         return res.status(500).json({ success: false, message: "Internal server error", errors });
     }
-}
+};
 
 const signup = async (req: Request, res: Response) => {
     try {
@@ -48,6 +45,6 @@ const signup = async (req: Request, res: Response) => {
         console.error("Error during signup:", error);
         return res.status(500).json({ success: false, message: "Internal server error" });
     }
-}
+};
 
-export default { login, signup }
+export default { login, signup };
