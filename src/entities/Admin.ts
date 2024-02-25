@@ -11,15 +11,12 @@ export class Admin {
     lastName: string;
 
     @Column()
-    email: string;
-
-    @Column()
     password: string;
 
     @Column({
         type: "enum",
         enum: ["admin", "user"],
-        default: "user", // Optional: Set a default role
+        default: "user",
     })
     role: "admin" | "user";
 }

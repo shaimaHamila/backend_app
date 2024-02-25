@@ -22,7 +22,6 @@ export const createAdmin = async (req: Request, res: Response) => {
         const admin = new Admin();
         admin.firstName = firstName;
         admin.lastName = lastName;
-        admin.email = email;
         admin.password = password;
         admin.role = role;
         await adminRepository.save(admin);
