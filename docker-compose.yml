@@ -1,13 +1,13 @@
 version: "3.9"
 services:
     mysqldb:
-        image: mysql:5.7
-        restart: unless-stopped
+        image: mysql:latest
+        restart: always
         ports:
-            - 3306:3306
+            - 3360:3306
         environment:
-            MYSQL_ALLOW_EMPTY_PASSWORD: true
-            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+            MYSQL_DATABASE: "AssociationCoranique"
         volumes:
             - db:/var/lib/mysql
 
@@ -27,7 +27,7 @@ services:
         image: phpmyadmin
         restart: always
         ports:
-            - 8080:80
+            - 6000:6000
         environment:
             - PMA_ARBITRARY=1
 
