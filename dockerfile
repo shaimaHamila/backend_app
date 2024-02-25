@@ -2,12 +2,14 @@ FROM node:latest
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json .
 
 RUN npm install
 
 COPY . .
 
-EXPOSE 5000
+ENV SERVER_PORT 5000
+
+EXPOSE $SERVER_PORT
 
 CMD [ "npm", "run", "dev" ]
