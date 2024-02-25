@@ -38,7 +38,7 @@ app.use("/api/v1/teacher", TeacherRouter);
 
 // Default route
 app.get("/", (req: Request, res: Response) => {
-    res.send("Welcome to Express & TypeScript Server");
+    res.send("Welcome to Express & TypeScript Server :) test");
 });
 
 // Dynamically generate and write Swagger JSON file

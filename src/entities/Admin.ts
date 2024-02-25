@@ -5,6 +5,9 @@ export class Admin {
     id: string;
 
     @Column()
+    email: string;
+
+    @Column()
     firstName: string;
 
     @Column()
