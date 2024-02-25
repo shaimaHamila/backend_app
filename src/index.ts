@@ -36,6 +36,7 @@ app.use("/api/v1/admin", AdminRouter);
 app.use("/api/v1/user", UserRouter);
 app.use("/api/v1/teacher", TeacherRouter);
 
+//s chaima
 // Default route
 app.get("/", (req: Request, res: Response) => {
     res.send("Welcome to Express & TypeScript Server :) test");

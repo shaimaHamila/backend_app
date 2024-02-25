@@ -8,8 +8,6 @@ RUN npm install
 
 COPY . .
 
-ENV NODE_SERVER_DOCKER_PORT 5000
-
-EXPOSE $NODE_SERVER_DOCKER_PORT
+EXPOSE 5000
 
 CMD [ "npm", "run", "dev" ]
