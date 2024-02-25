@@ -1,41 +1,32 @@
 version: "3.9"
 services:
-    express:
-        build: .
-        ports:
-            - "5000:5000"
-        expose:
-            - 5000
-        depends_on:
-            - mysqldb
-        environment:
-            CHOKIDAR_USEPOLLING: "true"
-            DB_HOST: mysqldb
-            DB_PORT: 3306
-            SERVER_PORT: 5000
-            DB_NAME: AssociationCoranique
-            DB_USERNAME: root
-            DB_PASSWORD: ""
-
     mysqldb:
-        image: mysql:8.0
-        command: --default-authentication-plugin=mysql_native_password
+        image: mysql:5.7
         restart: unless-stopped
+        env_file: ./.env
         ports:
-            - "3307:3306"
-        expose:
-            - 3307
+            - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
         environment:
-            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-            MYSQL_DATABASE: AssociationCoranique
-            MYSQL_ROOT_HOST: localhost
-            MYSQL_USER: root
+            - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+            - MYSQL_DATABASE=$MYSQL_DATABASE
         volumes:
             - db:/var/lib/mysql
-        networks:
-            - default
+
+    express:
+        depends_on:
+            - mysqldb
+        build: .
+        restart: unless-stopped
+        env_file: ./.env
+        ports:
+            - $NODE_SERVER_LOCAL_PORT:$NODE_SERVER_DOCKER_PORT
+        environment:
+            - DB_HOST=$MYSQL_HOST
+            - DB_USER=$MYSQL_USER
+            - DB_PASSWORD=$MYSQL_ROOT_PASSWOR
+            - DB_NAME=$MYSQL_DATABASE
+            - DB_PORT=$MYSQL_DOCKER_PORT
+        stdin_open: true
+        tty: true
 volumes:
     db:
-
-networks:
-    default:
