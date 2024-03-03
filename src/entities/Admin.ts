@@ -5,7 +5,7 @@ export class Admin {
     id: string;
 
     @Column()
-    email: string;
+    username: string;
 
     @Column()
     firstName: string;
@@ -18,8 +18,8 @@ export class Admin {
 
     @Column({
         type: "enum",
-        enum: ["admin", "user"],
-        default: "user",
+        enum: ["fullAccessAdmin", "limitedAccess", "readOnly"],
+        default: "fullAccessAdmin",
     })
-    role: "admin" | "user";
+    role: "fullAccessAdmin" | "limitedAccess" | "readOnly";
 }

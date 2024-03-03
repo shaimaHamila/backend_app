@@ -10,7 +10,6 @@ services:
             MYSQL_DATABASE: "AssociationCoranique"
         volumes:
             - db:/var/lib/mysql
-
     express:
         depends_on:
             - mysqldb
@@ -27,7 +26,7 @@ services:
         image: phpmyadmin
         restart: always
         ports:
-            - 6000:6000
+            - 6000:8011
         environment:
             - PMA_ARBITRARY=1
 
