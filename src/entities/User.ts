@@ -6,14 +6,13 @@ export class User {
     id: string;
 
     @Column()
+    identifier: string;
+
+    @Column()
     firstName: string;
 
     @Column()
     lastName: string;
-
-    @Column()
-    email: string;
-
 
     @Column()
     fatherName: string;
@@ -43,15 +42,15 @@ export class User {
     motherPhoneNumber: string;
 
     @Column()
+    gender: string;
+
+    @Column()
     cin: string;
 
     @Column()
-    roles: string;
-
+    doc: string;
     // Add other properties as needed
 
-    @Column({ nullable: false })
-    password: string;
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date;
 

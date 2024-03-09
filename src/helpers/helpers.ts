@@ -2,7 +2,6 @@ import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
 import * as dotenv from "dotenv";
 
-
 dotenv.config();
 
 export class encrypt {
@@ -17,5 +16,4 @@ export class encrypt {
         if (!process.env.TOKEN_SECRET_KEY) throw new Error("TOKEN_SECRET is undefined");
         return jwt.sign(id, process.env.TOKEN_SECRET_KEY, { expiresIn: "1d" });
     }
-
 }

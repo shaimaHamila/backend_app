@@ -11,7 +11,7 @@
         "skipLibCheck": true /* Skip type checking all .d.ts files. */,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "strictPropertyInitialization": false,
+        "strictPropertyInitialization": false
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*"]
 }
