@@ -1,35 +1,38 @@
 import { Request, Response } from "express";
 import { appDataSource } from "../config/Database";
 import { Teacher } from "../entities/Teacher";
-import { teacherCreationValidator } from "../validators/TeacherValidator";
+import { teacherValidator } from "../validators/TeacherValidator";
 import { User } from "../entities/User";
 
 const teacherRepository = appDataSource.getRepository(Teacher);
 const usersRepository = appDataSource.getRepository(User);
 
 export const createTeacher = async (req: Request, res: Response) => {
-    const { error } = teacherCreationValidator.validate(req.body);
+    const { error } = teacherValidator.validate(req.body);
     if (error) return res.status(400).json({ success: false, message: error.details[0].message });
 
     const { firstName, lastName, birthday, identifier } = req.body;
 
     try {
-        // Check if user with the provided identifier already exists
-        let user = await usersRepository.findOne({ where: { identifier: identifier } });
-
-        // If user does not exist, create a new user
-        if (!user) {
+        let user: User | null;
+        if (identifier) {
+            // Check if user with the provided identifier already exists
+            user = await usersRepository.findOne({ where: { identifier: identifier } });
+            if (!user) {
+                throw new Error("User with the provided identifier does not exist");
+            }
+        } else {
             user = new User();
             user.firstName = firstName;
             user.lastName = lastName;
             user.birthday = birthday;
-            user.identifier = identifier;
+            user.identifier = identifier; //TODO: auto generate
             await usersRepository.save(user);
         }
 
         // Create Teacher entity
         const teacher = new Teacher();
-        teacher.code = req.body.code;
+        teacher.code = req.body.code; //TODO: auto generate
         teacher.password = req.body.password; //TODO: hash password or auto generate
         teacher.kotebName = req.body.kotebName;
         teacher.prim = req.body.prim;

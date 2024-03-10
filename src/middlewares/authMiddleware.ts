@@ -34,6 +34,7 @@ export const adminAuthentification = async (req: Request, res: Response, next: N
         // Assign user role to the req object
         if (admin) {
             res.locals.userRole = admin.role;
+            console.log("adminRole", res.locals.userRole);
         }
         next();
     } catch (error: any) {
