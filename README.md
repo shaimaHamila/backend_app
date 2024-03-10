@@ -17,7 +17,7 @@ git clone https://github.com/Association-Coranique-Msaken/Backend.git
 
 npm install
 
-docker-compose up -d --build
+docker-compose up
 
 ```
 

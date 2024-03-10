@@ -90,7 +90,7 @@ const adminSignup = async (req: Request, res: Response) => {
         let admin = await adminRepository.findOne({ where: { username: username } });
 
         if (admin) {
-            return res.status(409).json({ success: false, message: "Email already exists" });
+            return res.status(409).json({ success: false, message: "Username already exists" });
         }
 
         const encryptedPassword = await encrypt.encryptpass(password);
