@@ -17,6 +17,9 @@ git clone https://github.com/Association-Coranique-Msaken/Backend.git
 
 npm install
 
-docker-compose up -d --build
+docker-compose up
 
 ```
+
+create Admin api :http://localhost:5000/api/v1/auth/admin/signup
+login admin api http://localhost:5000/api/v1/auth/admin/login
