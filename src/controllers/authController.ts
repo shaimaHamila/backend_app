@@ -27,12 +27,15 @@ const userLogin = async (req: Request, res: Response) => {
 
         // Generate JWT token
         const token = encrypt.generateToken({ id: user.id });
+        // Generate refresh token
+        const refreshToken = encrypt.generateRefreshToken({ id: user.id });
 
         return res.status(200).json({
             success: true,
-            message: "Login successful",
+            message: "User Login successful",
             data: user,
             accessToken: token,
+            refreshToken: refreshToken,
         });
     } catch (errors) {
         console.error(errors);
@@ -40,40 +43,64 @@ const userLogin = async (req: Request, res: Response) => {
     }
 };
 
+//Teacher Login
+const teacherLogin = async (req: Request, res: Response) => {
+    const { code, password } = req.body;
+    try {
+        if (!code || !password) {
+            return res.status(400).json({ message: "identifier and password are required" });
+        }
+        const teacher = await teacherRepository.findOne({ where: { code: code } });
+
+        const isPasswordValid = teacher?.password == password;
+        if (!teacher || !isPasswordValid) {
+            return res.status(401).json({ message: "Invalid username or password" });
+        }
+
+        // Generate JWT token
+        const token = encrypt.generateToken({ id: teacher.id });
+        // Generate refresh token
+        const refreshToken = encrypt.generateRefreshToken({ id: teacher.id });
+
+        return res.status(200).json({
+            success: true,
+            message: "Teacher Login successful",
+            data: teacher,
+            accessToken: token,
+            refreshToken: refreshToken,
+        });
+    } catch (errors) {
+        console.error(errors);
+        return res.status(500).json({ success: false, message: "Internal server error", errors });
+    }
+};
+
+//Admin Login
 const adminLogin = async (req: Request, res: Response) => {
     const { username, password } = req.body;
     try {
         if (!username || !password) {
             return res.status(400).json({ message: "Username and password are required" });
         }
-        const user = await adminRepository.findOne({ where: { username: username } });
+        const admin = await adminRepository.findOne({ where: { username: username } });
 
-        const isPasswordValid = encrypt.comparepassword(user!.password, password);
+        const isPasswordValid = encrypt.comparepassword(admin!.password, password);
 
-        if (!user || !isPasswordValid) {
+        if (!admin || !isPasswordValid) {
             return res.status(401).json({ message: "Invalid username or password" });
         }
 
         // Generate JWT token
-        const token = encrypt.generateToken({ id: user.id });
+        const token = encrypt.generateToken({ id: admin.id });
         // Generate refresh token
-        // const refreshToken = encrypt.generateRefreshToken(user.id);
-
-        // // Send refresh token to client as an HTTP-only cookie
-        // res.cookie("refreshToken", refreshToken, {
-        //     httpOnly: true,
-        //     secure: true,
-        //     maxAge: 60 * 4000,
-
-        //     path: "/api/auth/admin/refresh",
-        // });
+        const refreshToken = encrypt.generateRefreshToken({ id: admin.id });
 
         return res.status(200).json({
             success: true,
-            message: "Login successful",
-            data: user,
+            message: "Admin Login successful",
+            data: admin,
             accessToken: token,
-            // refreshToken: refreshToken,
+            refreshToken: refreshToken,
         });
     } catch (errors) {
         console.error(errors);
@@ -110,18 +137,26 @@ const adminSignup = async (req: Request, res: Response) => {
         return res.status(500).json({ success: false, message: "Internal server error" });
     }
 };
-// export const signout = async (req: Request, res: Response) => {
-//     res.clearCookie("refreshtoken", {
-//         httpOnly: true,
-//         sameSite: "none",
-//         secure: true,
-//         path: "/api/auth/admin/refresh",
-//     });
-//     res.status(200).json({
-//         success: true,
-//         message: "Signout Successfully",
-//     });
-//     res.end();
-// };
+const signout = async (req: Request, res: Response) => {
+    try {
+        // Clear the refresh token from the client-side storage
+        // For example, if you're using local storage
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("token");
 
-export default { adminLogin, adminSignup, userLogin };
+        // Or if you're using session storage
+        // sessionStorage.removeItem("refreshToken");
+
+        return res.status(200).json({
+            success: true,
+            message: "Signout Successfully",
+        });
+    } catch (error) {
+        console.error("Error during signout:", error);
+        return res.status(500).json({ success: false, message: "Internal server error" });
+    }
+};
+
+// Refresh Access Token
+//TDOD: implement refresh token
+export default { adminLogin, adminSignup, userLogin, teacherLogin, signout };
