@@ -31,9 +31,7 @@ export const adminAuthentification = async (req: Request, res: Response, next: N
         if (!admin) {
             throw new Error("Admin not found");
         }
-        // Assign user role to the req object
-        res.locals.userRole = admin.role;
-        console.log("adminRole", res.locals.userRole);
+
         next();
     } catch (error: any) {
         return res.status(401).json({ error: error.message });
