@@ -12,3 +12,11 @@ export const teacherValidator = Joi.object({
     teacherType: Joi.string(),
     statue: Joi.string(),
 }).options({ stripUnknown: true });
+
+export const teacherUpdateValidator = Joi.object({
+    code: Joi.string().required(),
+    kotebName: Joi.string(),
+    prim: Joi.string(),
+    teacherType: Joi.string(),
+    statue: Joi.string(),
+}).options({ stripUnknown: true });
