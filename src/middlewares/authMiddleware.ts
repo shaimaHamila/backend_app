@@ -20,7 +20,7 @@ export const adminAuthentification = async (req: Request, res: Response, next: N
     }
 
     try {
-        const decode = jwt.verify(token, process.env.TOKEN_SECRET_KEY!) as jwt.JwtPayload;
+        const decode = jwt.verify(token, process.env.JWT_TOKEN_SECRET!) as jwt.JwtPayload;
 
         if (!decode || !decode.id) {
             throw new Error("Invalid token!");
@@ -50,7 +50,7 @@ export const userAuthentification = async (req: Request, res: Response, next: Ne
     }
 
     try {
-        const decode = jwt.verify(token, process.env.TOKEN_SECRET_KEY!) as jwt.JwtPayload;
+        const decode = jwt.verify(token, process.env.JWT_TOKEN_SECRET!) as jwt.JwtPayload;
         if (!decode || !decode.id) {
             throw new Error("Invalid token!");
         }
@@ -80,7 +80,7 @@ export const teacherAuthentification = async (req: Request, res: Response, next:
     }
 
     try {
-        const decode = jwt.verify(token, process.env.TOKEN_SECRET_KEY!) as jwt.JwtPayload;
+        const decode = jwt.verify(token, process.env.JWT_TOKEN_SECRET!) as jwt.JwtPayload;
         if (!decode || !decode.id) {
             throw new Error("Invalid token!");
         }

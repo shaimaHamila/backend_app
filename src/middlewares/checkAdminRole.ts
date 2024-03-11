@@ -8,7 +8,7 @@ export const adminAuthorization = (role: string) => async (req: Request, res: Re
     const token = header!.split(" ")[1];
 
     try {
-        const decode = jwt.verify(token, process.env.TOKEN_SECRET_KEY!) as jwt.JwtPayload;
+        const decode = jwt.verify(token, process.env.JWT_TOKEN_SECRET!) as jwt.JwtPayload;
 
         if (!decode || !decode.id) {
             throw new Error("Invalid token!");
